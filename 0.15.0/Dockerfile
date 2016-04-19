@@ -1,9 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER docrystal.org <info@docrystal.org>
 
-ENV LLVM_VERSION 3.6
-ENV CRYSTAL_VERSION master
-ENV SOURCE_CRYSTAL_VERSION 0.15.0
+ENV CRYSTAL_VERSION 0.15.0
 ENV SHARDS_VERSION 0.6.2
 
 RUN apt-get update && \
@@ -29,19 +27,11 @@ RUN apt-get update && \
       libyaml-dev \
       tar
 
-RUN apt-get install -y llvm-${LLVM_VERSION} llvm-${LLVM_VERSION}-dev
-
-RUN curl -L -o /tmp/crystal-${SOURCE_CRYSTAL_VERSION}.tar.gz https://github.com/manastech/crystal/releases/download/${SOURCE_CRYSTAL_VERSION}/crystal-${SOURCE_CRYSTAL_VERSION}-1-linux-x86_64.tar.gz && \
+RUN curl -L -o /tmp/crystal-${CRYSTAL_VERSION}.tar.gz https://github.com/manastech/crystal/releases/download/${CRYSTAL_VERSION}/crystal-${CRYSTAL_VERSION}-1-linux-x86_64.tar.gz && \
       mkdir -p /usr/src/crystal && \
-      tar xvzf /tmp/crystal-${SOURCE_CRYSTAL_VERSION}.tar.gz -C /usr/src/crystal && \
-      rm /tmp/crystal-${SOURCE_CRYSTAL_VERSION}.tar.gz && \
-      ln -s /usr/src/crystal/crystal-${SOURCE_CRYSTAL_VERSION}-1/bin/* /usr/local/bin/
-
-RUN git clone https://github.com/manastech/crystal.git /usr/src/crystal/crystal-head && \
-      cd /usr/src/crystal/crystal-head && \
-      make crystal && \
-      rm /usr/local/bin/crystal && \
-      ln -s /usr/src/crystal/crystal-head/bin/crystal /usr/local/bin/crystal
+      tar xvzf /tmp/crystal-${CRYSTAL_VERSION}.tar.gz -C /usr/src/crystal && \
+      rm /tmp/crystal-${CRYSTAL_VERSION}.tar.gz && \
+      ln -s /usr/src/crystal/crystal-${CRYSTAL_VERSION}-1/bin/* /usr/local/bin/
 
 RUN curl -L -o /tmp/shards-${SHARDS_VERSION}.gz https://github.com/ysbaddaden/shards/releases/download/v${SHARDS_VERSION}/shards-${SHARDS_VERSION}_linux_x86_64.gz && \
   mkdir -p /usr/src/shards && \
